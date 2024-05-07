@@ -21,7 +21,7 @@ model User {
   image         String?
   accounts      Account[]
   password      String?
-  role UserRole @default(USER)
+  role          UserRole @default(USER)
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
