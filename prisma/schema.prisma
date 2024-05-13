@@ -8,7 +8,7 @@ datasource db {
   // relationMode = "prisma"
 }
 
-enum UserRole{
+enum UserRole {
   ADMIN
   USER
 }
@@ -21,10 +21,10 @@ model User {
   image         String?
   accounts      Account[]
   password      String?
-  role          UserRole @default(USER)
+  role          UserRole  @default(USER)
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
@@ -50,10 +50,10 @@ model Account {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
-  @@unique([email,token])
+  @@unique([email, token])
 }
