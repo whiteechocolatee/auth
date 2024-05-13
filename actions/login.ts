@@ -1,6 +1,8 @@
 'use server';
 
 import { signIn } from '@/auth';
+import { getUserByEmail } from '@/data/user';
+import { generateVerificationToken } from '@/lib/tokens';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { loginSchema } from '@/schemas';
 import { AuthError } from 'next-auth';
@@ -16,6 +18,22 @@ export const login = async (
   }
 
   const { email, password } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+
+  if (
+    !existingUser ||
+    !existingUser.email ||
+    !existingUser.password
+  ) {
+    return { error: 'Email does not exist' };
+  }
+
+  if (!existingUser.emailVerified) {
+    await generateVerificationToken(existingUser.email);
+
+    return { success: 'Confirmation email sent!' };
+  }
 
   try {
     await signIn('credentials', {
