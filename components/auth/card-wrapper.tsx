@@ -16,7 +16,7 @@ interface CardWrapperProps {
   headerLabel: string;
   backButtonLabel: string;
   backButtonHref: string;
-  showSocials: boolean;
+  showSocials?: boolean;
 }
 
 const CardWrapper = ({
