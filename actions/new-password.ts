@@ -1,4 +1,4 @@
-import { bcrypt } from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 ('use server');
 
 import * as z from 'zod';
