@@ -13,7 +13,7 @@ export const generateTwoFactorToken = async (
     .toString();
 
   const expires = new Date(
-    new Date().getTime() + 3600 * 1000,
+    new Date().getTime() + 5 * 50 * 1000,
   );
 
   const existingToken = await getTwoFactorTokenByEmail(
