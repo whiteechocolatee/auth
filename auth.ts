@@ -9,12 +9,13 @@ import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    role?: UserRole;
+    role: UserRole;
   }
 }
 
-type ExtendedUser = DefaultSession['user'] & {
+export type ExtendedUser = DefaultSession['user'] & {
   role: UserRole;
+  isTwoFactorEnabled: boolean;
 };
 
 declare module 'next-auth' {
@@ -84,6 +85,11 @@ export const {
         session.user.role = token.role as UserRole;
       }
 
+      if (session.user) {
+        session.user.isTwoFactorEnabled =
+          token.isTwoFactorEnabled as boolean;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -98,6 +104,8 @@ export const {
       }
 
       token.role = existingUser.role;
+      token.isTwoFactorEnabled =
+        existingUser.isTwoFactorEnabled;
 
       return token;
     },
